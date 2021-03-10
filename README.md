@@ -25,12 +25,14 @@ Data is found in the Source-Data directory.
 
 All Data is originally taken from [Here](https://www.kaggle.com/nathanlauga/nba-games?select=games.csv)
 
-1. games.csv \
+#### games.csv
 Primary key: GAME_ID \
-Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID \
+Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID 
 
 ##### Variables:
   * SEASON: Season when the game occured
   * PTS_home: Number of points scored by the home team
+  
+***
   
 2. games_details.csv
