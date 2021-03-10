@@ -25,8 +25,6 @@ Data is found in the Source-Data directory.
 
 All Data is originally taken from [Here](https://www.kaggle.com/nathanlauga/nba-games?select=games.csv)
 
-***
-
 #### games.csv
 Primary key: GAME_ID \
 Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID 
