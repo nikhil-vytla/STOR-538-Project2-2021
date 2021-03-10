@@ -25,11 +25,11 @@ Data is found in the Source-Data directory.
 
 All Data is originally taken from [Here](https://www.kaggle.com/nathanlauga/nba-games?select=games.csv)
 
-#### games.csv
+### games.csv
 Primary key: GAME_ID \
 Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID 
 
-##### Variables:
+#### Variables:
   * SEASON: Season when the game occured
   * PTS_home: Number of points scored
   * FG_PCT_home: Field goal percentage
@@ -38,18 +38,18 @@ Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID
   * AST_home: Number of assists
   * REB_home: Number of rebounds
   
-##### Description
+#### Description
 This data set contains game by game boxscores for home and away teams. Variables are aggregates over the whole game. 
 
 ###### only home variables displayed
   
 ***
   
-#### games_details.csv
+### games_details.csv
 Primary key: PLAYER_ID \
 Foregin keys: GAME_ID, TEAM_ID 
 
-##### Variables:
+#### Variables:
   * TEAM_ABBREVIATION: Team name abbreviation
   * TEAM_CITY: Team city
   * PLAYER_NAME: Player name
@@ -76,7 +76,7 @@ Foregin keys: GAME_ID, TEAM_ID
   * PTS: Points scored
   * PLUS_Minus: Plus-Minus
   
-##### Description
+#### Description
 This dataset contains player level date for each game. Variables are aggregates over the whole game.
 
 ***
