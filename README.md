@@ -17,11 +17,15 @@ You are asked to use this data to build models that predict the 3 variables abov
 ### Grading 
 You will be graded on accuracy of your models predicting these three variables. Dr. Mario will release results after each week's games ranking your projects vs your classmates. 
 
+***
+
 Data
 ----
 Data is found in the Source-Data directory.
 
 All Data is originally taken from [Here](https://www.kaggle.com/nathanlauga/nba-games?select=games.csv)
+
+***
 
 #### games.csv
 Primary key: GAME_ID \
