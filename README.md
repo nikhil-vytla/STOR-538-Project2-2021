@@ -7,7 +7,7 @@ Project Details
 ### Objective
 The Variables you will be predicting are Spread, Total Points, and Offensive Rebounds. <br />
 Spread = Winning team's score - Losing team's score <br />
-Total points = Winning team's score + Losing team's score <br />
+Total Points = Winning team's score + Losing team's score <br />
 Offensive Rebounds = Number of rebounds a team had while on offense
 
 ### Methodology
