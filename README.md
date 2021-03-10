@@ -29,7 +29,7 @@ All Data is originally taken from [Here](https://www.kaggle.com/nathanlauga/nba-
 Primary key: GAME_ID \
 Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID \
 Variables: \
-  *SEASON: Season when the game occured
-  *PTS_home: Number of points scored by the home team
+  * SEASON: Season when the game occured
+  * PTS_home: Number of points scored by the home team
   
 2. games_details.csv
