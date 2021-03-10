@@ -31,7 +31,14 @@ Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID
 
 ##### Variables:
   * SEASON: Season when the game occured
-  * PTS_home: Number of points scored by the home team
+  * PTS_home: Number of points scored
+  * FG_PCT_home: Field goal percentage
+  * FT_PCT_home: Free throw percentage
+  * FG3_PCT_home: Three point percentage
+  * AST_home: Number of assists
+  * REB_home: Number of rebounds
+  
+###### only home variables displayed
   
 ***
   
