@@ -1,0 +1,11 @@
+.RData
+.Rhistory
+.local/*
+.rstudio/*
+Rplots.pdf*
+.config/*
+.gitconfig/*
+.cache/
+.bash_history
+.Rproj.user/
+P2_2021.Rproj
