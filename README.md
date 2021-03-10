@@ -46,8 +46,8 @@ This data set contains game by game boxscores for home and away teams. Variables
 ***
   
 #### games_details.csv
-Primary key: GAME_ID \
-Foregin keys: TEAM_ID, PLAYER_ID
+Primary key: PLAYER_ID \
+Foregin keys: GAME_ID, TEAM_ID 
 
 ##### Variables:
   * TEAM_ABBREVIATION: Team name abbreviation
