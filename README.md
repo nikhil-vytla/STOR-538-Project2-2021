@@ -15,7 +15,7 @@ Data is available [Here](https://github.com/mattymo18/STOR-538-Project2-2021) <b
 You are asked to use this data to build models that predict the 3 variables above. These models will be used to predict NBA games from April 10th - April 30th. That schedule can be found [Here](https://www.espn.com/nba/schedule) <br />
 
 ### Grading 
-You will be graded on accuracy of your models predicting these three variables. Dr. Mario will release results after each week's games ranking your projects vs your classmates. 
+You will be graded on accuracy of your models predicting these three variables. Dr. Mario will release results after each week's games ranking your projects vs. your classmates. 
 
 ***
 
