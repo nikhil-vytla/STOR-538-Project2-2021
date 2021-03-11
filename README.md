@@ -80,3 +80,21 @@ Foregin keys: GAME_ID, TEAM_ID
 This dataset contains player level date for each game. Variables are aggregates over the whole game.
 
 ***
+
+### teams.csv
+Primary key: TEAM_ID
+
+#### Variables:
+  * ABBREVIATION: Abbreviation of team name
+  * NICKNAME: Team nickname
+  * YEARFOUNDED: Year the team was founded
+  * CITY: Home city
+  * ARENA: Home arena
+  * ARENACAPACITY: Arena capacity, `NULL` if unknown
+  * OWNER: Team owner
+  * GENERALMANAGER: Team GM
+  * HEADCOACH: Team coach
+  * DLEAGUEAFFILIATION: D-league team affiliate
+  
+#### Description
+This dataset contains general team data. 
