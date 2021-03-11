@@ -65,14 +65,14 @@ Foregin keys: GAME_ID, TEAM_ID
   * FTM: Free throws made
   * FTA: Free throws attempted
   * FT_PCT: Free throw percentage
-  * OREB: Offensive Rebounds
-  * DREB: Defensive Rebounds
+  * OREB: Offensive rebounds
+  * DREB: Defensive rebounds
   * REB: Rebounds
   * AST: Assists
   * STL: Steals
   * BLK: Blocks
   * TO: Turnovers
-  * PF: Personal Fouls
+  * PF: Personal fouls
   * PTS: Points scored
   * PLUS_Minus: Plus-Minus
   
