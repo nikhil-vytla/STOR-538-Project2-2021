@@ -1,0 +1,236 @@
+---
+title: "Playoff Round 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(curl)
+library(tidyverse)
+library(dplyr)
+library(readxl)
+```
+
+```{r}
+#Read Data Directly from Github
+GAMES=read.csv(url("https://raw.githubusercontent.com/mattymo18/STOR-538-Project2-2021/master/Source-Data/games.csv"))
+GAMES_DETAILS=read.csv(url("http://raw.githubusercontent.com/mattymo18/STOR-538-Project2-2021/master/Source-Data/games_details.csv"))
+TEAMS=read.csv(url("https://raw.githubusercontent.com/mattymo18/STOR-538-Project2-2021/master/Source-Data/teams.csv"))
+```
+
+```{r}
+#Read Data Locally (may have NA values)
+
+GAMES=read.csv("./Source-Data/games.csv")
+GAMES_DETAILS=read.csv("./Source-Data/games-details.csv")
+TEAMS=read.csv("./Source-Data/teams.csv")
+```
+
+## R Markdown
+
+```{r}
+#splitting data into players that played and ones that didn't
+GAMES_DETAILS[GAMES_DETAILS==""]<-NA
+#View(GAMES_DETAILS)
+DidPlay_rows<-subset(GAMES_DETAILS, is.na(GAMES_DETAILS$COMMENT))
+DidNotPlay_rows<-subset(GAMES_DETAILS, !is.na(GAMES_DETAILS$COMMENT))
+DidNotPlay_rows[7]<- NULL
+DidNotPlay_rows[8:28]<- NULL
+
+# write.csv(DidNotPlay_rows,'DidNotPlay.csv')
+```
+
+```{r}
+#added bench to the start_position for the players that didn't start the game
+DidPlay_rows$START_POSITION <- as.character(DidPlay_rows$START_POSITION)
+DidPlay_rows$START_POSITION[is.na(DidPlay_rows$START_POSITION)] <- "Bench"
+DidPlay_rows[8]<- NULL
+#View(DidPlay_rows)
+
+# write.csv(DidPlay_rows,'DidPlay.csv')
+```
+
+```{r}
+df1 <- read.csv("./player_data.csv")
+df2 <- read.csv("./players.csv")
+
+library(tidyverse)
+
+summary(df1)
+str(df1)
+df.norm <- df1 %>%
+  select(-weight) %>%
+  separate(height, into = c("inches", "month"), sep = "-") %>%
+  filter(month != "00")
+
+df.normfixed <- df.norm %>%
+  mutate(height.temp = ifelse(month == "May", 60, 
+                              ifelse(month == "Jun", 72, 84))) %>%
+  mutate(height = height.temp + as.numeric(inches)) %>%
+  select(-c(height.temp, inches, month))
+
+head(df.normfixed)
+
+# unique(df.00$inches)
+
+df.00 <- df1 %>%
+  select(-weight) %>%
+  separate(height, into = c("inches", "month"), sep = "-") %>%
+  filter(month == "00")
+
+
+df.00.fixed <- df.00 %>%
+  mutate(height = ifelse(inches == "Jun", 72, 84)) %>%
+  select(-c(inches, month))
+
+unique(df.norm$month)
+
+df.final <- rbind(df.00.fixed, df.normfixed)
+
+
+head(df.final)
+```
+
+```{r}
+read.csv("./didnotplay.csv")
+read.csv("./didplay.csv")
+```
+
+```{r}
+X2019_2020 <- read_xlsx("./2019-2020.xlsx")
+
+df1920.norm <- X2019_2020 %>%
+    separate(HEIGHT, into = c("year", "month", "day"), sep = "-") %>%
+    mutate(height=12*as.numeric(month)+as.numeric(day)) 
+
+head(df1920.norm)
+
+```
+
+```{r}
+X2020_21_Drafted_Players <- read_xlsx("./2020-21 Drafted Players.xlsx")
+
+dfdraft.norm <- X2020_21_Drafted_Players
+#    separate(7, into = c("feet", "inches"), sep = "'") %>% 
+#   mutate(height=12*as.numeric(feet)+as.numeric(inches))
+
+head(dfdraft.norm)
+
+```
+
+```{r}
+# merging
+# match names
+# choose most current height
+
+
+# take name and height
+
+colnames(df.final)[colnames(df.final) == "name"] <- "PLAYER"
+
+df.to19 <- df.final %>%
+        select(PLAYER, height)
+
+head(df.to19)
+
+df.19to20 <- df1920.norm %>%
+  select(PLAYER, height)
+
+head(df.19to20)
+
+
+df.draft21 <- dfdraft.norm %>%
+    select(PLAYER, height)
+
+head(df.draft21)
+
+```
+
+```{r}
+# merge all
+
+df.to19[duplicated(df.to19$PLAYER),]
+```
+
+```{r}
+#running marios code
+#Simplify Games Data
+NEW_GAMES=GAMES %>%
+            select(GAME_DATE_EST,GAME_ID,HOME_TEAM_ID,VISITOR_TEAM_ID,PTS_home,PTS_away) %>%
+            mutate(Spread=PTS_home-PTS_away,Total=PTS_home+PTS_away)
+#sum(!complete.cases(NEW_GAMES))
+
+#Obtain Aggregated OREB from Player Level Statistics
+OREB = GAMES_DETAILS %>%
+          select (TEAM_ABBREVIATION,GAME_ID,TEAM_ID,OREB) %>%
+          group_by(TEAM_ABBREVIATION,GAME_ID,TEAM_ID) %>%
+          summarize(OREB=sum(OREB,na.rm=T)) %>%
+          ungroup()
+#View(OREB)
+OREB$GAME_ID = as.numeric(as.character(OREB$GAME_ID))
+OREB$TEAM_ID = as.numeric(as.character(OREB$TEAM_ID))
+#View(OREB)
+#Merging Offensive Rebounds Into Game Data
+GAMES_DONE = left_join(NEW_GAMES,select(OREB,-TEAM_ABBREVIATION),by=c("GAME_ID","HOME_TEAM_ID"="TEAM_ID")) %>%
+                    rename(OREB_home=OREB) %>%
+                    left_join(select(OREB,-TEAM_ABBREVIATION),by=c("GAME_ID","VISITOR_TEAM_ID"="TEAM_ID")) %>%
+                    rename(OREB_away=OREB) %>%
+                    mutate(OREB=OREB_home+OREB_away)
+#View(GAMES_DONE)
+#Creating Home Team and Away Team Variables
+TWO_TEAMS= TEAMS %>%
+            select(TEAM_ID,CITY,NICKNAME) %>%
+            unite(NAME,CITY,NICKNAME,sep=" ")
+#View(TWO_TEAMS)
+#Merging Team Name into original data
+FINAL_GAMES_DONE=left_join(GAMES_DONE,TWO_TEAMS,by=c("HOME_TEAM_ID"="TEAM_ID")) %>%
+                        rename("Home Team"=NAME) %>%
+                        left_join(TWO_TEAMS,by=c("VISITOR_TEAM_ID"="TEAM_ID")) %>%
+                        rename("Away Team"=NAME) %>%
+                        select(GAME_DATE_EST,"Home Team","Away Team",everything()) %>%
+                        select(-HOME_TEAM_ID,-VISITOR_TEAM_ID)
+View(FINAL_GAMES_DONE)
+```
+
+```{r}
+#Get rid of NA values from FINAL_GAMES_DONE (99 games, most from 2003)
+FINAL_GAMES_COMPLETE <- na.omit(FINAL_GAMES_DONE)
+
+#Merging DidPlay
+Final_DidPlay=left_join(FINAL_GAMES_COMPLETE,DidPlay_rows,by="GAME_ID")
+Final_DidPlay=subset(Final_DidPlay,select=-c(TEAM_ABBREVIATION,TEAM_CITY))
+
+#Merging DidNotPlay
+Final_DidNotPlay=left_join(FINAL_GAMES_COMPLETE,DidNotPlay_rows,by="GAME_ID")
+Final_DidNotPlay=subset(Final_DidNotPlay,select=-c(TEAM_ABBREVIATION,TEAM_CITY))
+Final_DidNotPlay<-na.omit(Final_DidNotPlay)
+```
+
+```{r}
+#repeat for not play
+a=Final_DidPlay
+full.height=rbind(df.to19,df.draft21)
+avg.height=full.height %>%
+                  group_by(PLAYER)%>%
+                  summarize(HEIGHT=min(height,na.rm=T)) %>%
+                  ungroup() %>%
+                  rename(PLAYER_NAME=PLAYER)
+FINAL_DIDPLAYH=left_join(a,avg.height,by="PLAYER_NAME")
+
+```
+```{r}
+b=Final_DidNotPlay
+full.height=rbind(df.to19,df.draft21)
+avg.height=full.height %>%
+                  group_by(PLAYER)%>%
+                  summarize(HEIGHT=min(height,na.rm=T)) %>%
+                  ungroup() %>%
+                  rename(PLAYER_NAME=PLAYER)
+FINAL_DIDNOTPLAYH=left_join(b,avg.height,by="PLAYER_NAME")
+```
+
+```{r}
+FINAL_DIDPLAYH
+FINAL_DIDNOTPLAYH
+```
