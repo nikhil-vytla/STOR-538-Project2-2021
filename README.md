@@ -27,7 +27,7 @@ All Data is originally taken from [Here](https://www.kaggle.com/nathanlauga/nba-
 
 ### games.csv
 Primary key: GAME_ID \
-Foregin keys: HOME_TEAM_ID, VISITOR_TEAM_ID 
+Foreign keys: HOME_TEAM_ID, VISITOR_TEAM_ID 
 
 #### Variables:
   * SEASON: Season when the game occured
@@ -47,7 +47,7 @@ This data set contains game by game boxscores for home and away teams. Variables
   
 ### games_details.csv
 Primary key: PLAYER_ID \
-Foregin keys: GAME_ID, TEAM_ID 
+Foreign keys: GAME_ID, TEAM_ID 
 
 #### Variables:
   * TEAM_ABBREVIATION: Team name abbreviation
